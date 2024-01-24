@@ -21,6 +21,7 @@ namespace GestorTareas_MVC.Models
 
         [Required]
         public Prioridad Prioridad { get; set; }
+        public bool Completada { get; set; }
     }
 
     public enum Prioridad

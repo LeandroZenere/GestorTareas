@@ -2,7 +2,6 @@ using GestorTareas_MVC.Repos;
 using Microsoft.EntityFrameworkCore;
 using GestorTareas_MVC.Servicios.Contrato;
 using GestorTareas_MVC.Servicios.Implementacion;
-
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 

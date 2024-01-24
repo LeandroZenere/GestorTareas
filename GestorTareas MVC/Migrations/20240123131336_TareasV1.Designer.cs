@@ -4,6 +4,7 @@ using GestorTareas_MVC.Repos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestorTareas_MVC.Migrations
 {
     [DbContext(typeof(GestorTareasContext))]
-    partial class GestorTareasContextModelSnapshot : ModelSnapshot
+    [Migration("20240123131336_TareasV1")]
+    partial class TareasV1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

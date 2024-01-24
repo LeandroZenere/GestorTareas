@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GestorTareas MVC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b05e5893d4fb86fdbfb36548de1c28ce4259576d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2699718e249fa4128d98a2d789f3ba38c130d666")]
 [assembly: System.Reflection.AssemblyProductAttribute("GestorTareas MVC")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GestorTareas MVC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
