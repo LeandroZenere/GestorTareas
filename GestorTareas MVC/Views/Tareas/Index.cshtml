@@ -1,4 +1,4 @@
-﻿@model IEnumerable<GestorTareas_MVC.Models.Tarea>
+﻿@* @model IEnumerable<GestorTareas_MVC.Models.Tarea>
 
 @{
     Layout = null;
@@ -65,3 +65,158 @@
 </table>
 </body>
 </html>
+ *@
+
+                @model IEnumerable<GestorTareas_MVC.Models.Tarea>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Index</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/fonts/fontawesome-webfont.ttf" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+    <style>
+        .container {
+            font-family: 'Montserrat Thin', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(45deg, #FFE3C3, #FFE2C1);
+            color: #030331;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse:initial;
+            margin: 2rem auto;
+            color: #030331;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 1rem 1.5rem;
+            border: 1px solid black;
+        }
+
+        th {
+            font-weight: 700;
+            background-color: #f0f0f0;
+        }
+
+        td i {
+            vertical-align: middle;
+            margin-right: 5px; /* Ajusta el espacio entre el icono y el texto según sea necesario */
+            display: inline-block; /* Para ajustar la altura del ícono según el texto */
+        }
+
+
+        .columna-prioridad {
+            width: 10%; /* Ajusta este valor según sea necesario */
+        }
+        .btn-primary-ghost {
+            background-color: transparent;
+            border: 2px solid #030331;
+            color: #030331;
+        }
+
+    .btn-primary-ghost:hover {
+                background-color: #030331;
+                color: #FFE3C3;
+                transform: scale(1.1);
+                transition: transform 0.2s ease-in-out;
+            }
+
+        .table-btns {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p class="text-center">
+            <h1>Aquí encontrarás una lista de todas las tareas creadas</h1>
+            <p>¡Con el siguiente botón crearás nuevas tareas con las características que elijas!</p>
+        <a asp-action="Create" class="btn btn-primary-ghost">Nueva Tarea</a>
+        </p>
+        <table class="table w-100">
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Descripción</th>
+                    <th>Fecha de vencimiento</th>
+                    <th class="columna-prioridad">Prioridad</th>
+                    <th>Completada</th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Titulo)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Descripcion)</td>
+                        <td>@Html.DisplayFor(modelItem => item.FechaVencimiento)</td>
+                        @* <td>@Html.DisplayFor(modelItem => item.Prioridad)</td> *@
+                        <td>
+                            @{
+                                string iconClass = "";
+                                Prioridad prioridad = item.Prioridad;
+
+                                switch (prioridad)
+                                {
+                                    case Prioridad.Alta:
+                                        iconClass = "material-icons text-danger";
+                                        break;
+                                    case Prioridad.Media:
+                                        iconClass = "material-icons text-warning";
+                                        break;
+                                    case Prioridad.Baja:
+                                        iconClass = "material-icons text-success";
+                                        break;
+                                }
+                            }
+                            <i class="@iconClass">@GetMaterialIcon(prioridad)</i> @prioridad.ToString()
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.Completada)</td>
+                        <td class="table-btns">
+                            <a asp-action="Edit" asp-route-id="@item.TareaId" class="btn btn-primary-ghost">Editar</a>
+                            <a asp-action="Details" asp-route-id="@item.TareaId" class="btn btn-primary-ghost">Detalles</a> 
+                            <a asp-action="Delete" asp-route-id="@item.TareaId" class="btn btn-primary-ghost">Eliminar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+
+@functions {
+    string GetMaterialIcon(Prioridad prioridad)
+    {
+        switch (prioridad)
+        {
+            case Prioridad.Alta:
+                return "error";
+            case Prioridad.Media:
+                return "warning";
+            case Prioridad.Baja:
+                return "check_circle";
+            default:
+                return "";
+        }
+    }
+}

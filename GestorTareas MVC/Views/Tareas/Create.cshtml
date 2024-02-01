@@ -88,7 +88,7 @@
     <style>
         body {
             background: linear-gradient(45deg, #FFE3C3, #FFE2C1);
-            color: /* #bea187; */ #030331
+            color: #030331;
         }
         .form-group {
             margin-bottom: 1rem;
@@ -97,11 +97,6 @@
             color: #030331;
             font-weight: 700;
         }
-/*         .btn-primary {
-            background: linear-gradient(45deg, #030331, #FFE3C3);
-            border: none;
-            color: #030331
-        } */
 
         .btn-primary-ghost {
             background-color: transparent;
@@ -166,9 +161,9 @@
                     <div class="form-group">
                         <label asp-for="Prioridad" class="control-label">Prioridad:</label>
                         <select asp-for="Prioridad" class="form-control">
-                            <option value="Baja">Baja</option>
-                            <option value="Media">Media</option>
-                            <option value="Alta">Alta</option>
+                            <option value="Baja">Baja 🟢</option>
+                            <option value="Media">Media 🟡</option>
+                            <option value="Alta">Alta 🔴</option>
                         </select>
                         <span asp-validation-for="Prioridad" class="text-danger"></span>
                     </div>
