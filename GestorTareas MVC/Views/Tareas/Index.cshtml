@@ -1,73 +1,4 @@
-﻿@* @model IEnumerable<GestorTareas_MVC.Models.Tarea>
-
-@{
-    Layout = null;
-}
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Titulo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descripcion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaVencimiento)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Prioridad)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Completada)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Titulo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaVencimiento)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Prioridad)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Completada)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.TareaId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.TareaId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.TareaId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
-</body>
-</html>
- *@
-
-                @model IEnumerable<GestorTareas_MVC.Models.Tarea>
+﻿@model IEnumerable<GestorTareas_MVC.Models.Tarea>
 
 @{
     Layout = null;
@@ -106,6 +37,7 @@
             text-align: left;
             padding: 1rem 1.5rem;
             border: 1px solid black;
+            vertical-align: top; /* Alinea el contenido de la celda en la parte superior */
         }
 
         th {
@@ -119,22 +51,22 @@
             display: inline-block; /* Para ajustar la altura del ícono según el texto */
         }
 
-
         .columna-prioridad {
             width: 10%; /* Ajusta este valor según sea necesario */
         }
+
         .btn-primary-ghost {
             background-color: transparent;
             border: 2px solid #030331;
             color: #030331;
         }
 
-    .btn-primary-ghost:hover {
-                background-color: #030331;
-                color: #FFE3C3;
-                transform: scale(1.1);
-                transition: transform 0.2s ease-in-out;
-            }
+        .btn-primary-ghost:hover {
+            background-color: #030331;
+            color: #FFE3C3;
+            transform: scale(1.1);
+            transition: transform 0.2s ease-in-out;
+        }
 
         .table-btns {
             width: 100%;
@@ -142,15 +74,26 @@
             justify-content: space-between;
         }
 
+            .table-btns a {
+                margin-right: 10px;
+                padding: 3% 16px;
+            }
+        .description-cell {
+            max-width: 200px; /* Ancho máximo de la celda de descripción */
+            white-space: nowrap; /* Evita el desbordamiento de texto a la siguiente línea */
+            overflow: hidden; /* Oculta el texto que excede el ancho máximo */
+            text-overflow: ellipsis; /* Muestra puntos suspensivos (...) cuando el texto se corta */
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <p class="text-center">
-            <h1>Aquí encontrarás una lista de todas las tareas creadas</h1>
+            <h1>Aquí está la lista de todas las tareas creadas</h1>
             <p>¡Con el siguiente botón crearás nuevas tareas con las características que elijas!</p>
-        <a asp-action="Create" class="btn btn-primary-ghost">Nueva Tarea</a>
+            <a asp-action="Create" class="btn btn-primary-ghost">Nueva Tarea</a>
         </p>
+
         <table class="table w-100">
             <thead>
                 <tr>
@@ -167,33 +110,42 @@
                 {
                     <tr>
                         <td>@Html.DisplayFor(modelItem => item.Titulo)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Descripcion)</td>
+                        <td class="description-cell" title="@item.Descripcion">@Html.DisplayFor(modelItem => item.Descripcion)</td>
                         <td>@Html.DisplayFor(modelItem => item.FechaVencimiento)</td>
-                        @* <td>@Html.DisplayFor(modelItem => item.Prioridad)</td> *@
-                        <td>
-                            @{
-                                string iconClass = "";
-                                Prioridad prioridad = item.Prioridad;
+                        @{
+                            string iconClass = "";
+                            Prioridad prioridad = item.Prioridad;
 
-                                switch (prioridad)
-                                {
-                                    case Prioridad.Alta:
-                                        iconClass = "material-icons text-danger";
-                                        break;
-                                    case Prioridad.Media:
-                                        iconClass = "material-icons text-warning";
-                                        break;
-                                    case Prioridad.Baja:
-                                        iconClass = "material-icons text-success";
-                                        break;
-                                }
+                            switch (prioridad)
+                            {
+                                case Prioridad.Alta:
+                                    iconClass = "material-icons text-danger";
+                                    break;
+                                case Prioridad.Media:
+                                    iconClass = "material-icons text-warning";
+                                    break;
+                                case Prioridad.Baja:
+                                    iconClass = "material-icons text-success";
+                                    break;
                             }
+                        }
+                        <td>
                             <i class="@iconClass">@GetMaterialIcon(prioridad)</i> @prioridad.ToString()
                         </td>
-                        <td>@Html.DisplayFor(modelItem => item.Completada)</td>
+                        @* <td class="text-center">@Html.DisplayFor(modelItem => item.Completada)</td> *@
+                        <td class="text-center">
+                            @if (item.Completada)
+                            {
+                                <i class="material-icons text-success">check_circle_outline</i>
+                            }
+                            else
+                            {
+                                <i class="material-icons text-danger">highlight_off</i>
+                            }
+                        </td>
                         <td class="table-btns">
                             <a asp-action="Edit" asp-route-id="@item.TareaId" class="btn btn-primary-ghost">Editar</a>
-                            <a asp-action="Details" asp-route-id="@item.TareaId" class="btn btn-primary-ghost">Detalles</a> 
+                            <a asp-action="Details" asp-route-id="@item.TareaId" class="btn btn-primary-ghost">Detalles</a>
                             <a asp-action="Delete" asp-route-id="@item.TareaId" class="btn btn-primary-ghost">Eliminar</a>
                         </td>
                     </tr>
@@ -203,6 +155,7 @@
     </div>
 </body>
 </html>
+
 
 @functions {
     string GetMaterialIcon(Prioridad prioridad)

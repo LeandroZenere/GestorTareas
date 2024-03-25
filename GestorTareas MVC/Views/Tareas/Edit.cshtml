@@ -1,4 +1,4 @@
-﻿@model GestorTareas_MVC.Models.Tarea
+﻿@* @model GestorTareas_MVC.Models.Tarea
 
 @{
     Layout = null;
@@ -37,7 +37,6 @@
             </div>
             <div class="form-group">
                 <label asp-for="Prioridad" class="control-label"></label>
-               @*  <select asp-for="Prioridad" class="form-control"></select> *@
                     <select name="Prioridad" asp-for="Prioridad" class="form-control">
                         <option value="Baja">Baja</option>
                         <option value="Media">Media</option>
@@ -61,5 +60,102 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+</body>
+</html> *@
+
+            @model GestorTareas_MVC.Models.Tarea
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit Task</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background: linear-gradient(45deg, #FFE3C3, #FFE2C1);
+            color: #030331;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            color: #030331;
+            font-weight: 700;
+        }
+
+        .btn-primary-ghost {
+            background-color: transparent;
+            border: 2px solid #030331;
+            color: #030331;
+        }
+
+            .btn-primary-ghost:hover {
+                background-color: #030331;
+                color: #FFE3C3;
+            }
+
+        .container {
+            font-family: 'Montserrat Thin', sans-serif;
+        }
+
+        .titulo-grande {
+            font-size: 2.3rem;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6">
+                <h2 class="text-center mb-4 text-bold titulo-grande">¡EDITA LA TAREA!</h2>
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="TareaId" />
+                    <div class="form-group">
+                        <label asp-for="Titulo" class="control-label">Título</label>
+                        <input asp-for="Titulo" class="form-control" />
+                        <span asp-validation-for="Titulo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Descripcion" class="control-label">Descripción:</label>
+                        <input asp-for="Descripcion" class="form-control" />
+                        <span asp-validation-for="Descripcion" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FechaVencimiento" class="control-label">Fecha de expiración:</label>
+                        <input asp-for="FechaVencimiento" class="form-control" type="date" min="@DateTime.Now" />
+                        <span asp-validation-for="FechaVencimiento" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Prioridad" class="control-label">Prioridad:</label>
+                        <select asp-for="Prioridad" class="form-control">
+                            <option value="Baja">Baja 🟢</option>
+                            <option value="Media">Media 🟡</option>
+                            <option value="Alta">Alta 🔴</option>
+                        </select>
+                        <span asp-validation-for="Prioridad" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Completada" /> Completada
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Guardar" class="btn btn-primary-ghost" />
+                        <a asp-action="Index" class="btn btn-primary-ghost">Volver</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GestorTareas_MVC.Models;
 using GestorTareas_MVC.Repos;
+using Microsoft.CodeAnalysis.Elfie.Serialization;
 
 namespace GestorTareas_MVC.Controllers
 {
@@ -20,8 +21,13 @@ namespace GestorTareas_MVC.Controllers
         }
 
         // GET: Tareas
+
         public async Task<IActionResult> Index()
         {
+
+            IQueryable<Tarea> tareas = _context.Tareas;
+
+
             return View(await _context.Tareas.ToListAsync());
         }
 
@@ -156,6 +162,8 @@ namespace GestorTareas_MVC.Controllers
             return _context.Tareas.Any(e => e.TareaId == id);
         }
     }
+
+
 
 }
 
