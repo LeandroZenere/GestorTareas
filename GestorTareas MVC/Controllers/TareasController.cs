@@ -22,13 +22,42 @@ namespace GestorTareas_MVC.Controllers
 
         // GET: Tareas
 
-        public async Task<IActionResult> Index()
-        {
+        //public async Task<IActionResult> Index()
+        //{
 
+        //    IQueryable<Tarea> tareas = _context.Tareas;
+
+
+        //    return View(await _context.Tareas.ToListAsync());
+        //}
+        public async Task<IActionResult> Index(string filtroFecha, string filtroPrioridad)
+        {
             IQueryable<Tarea> tareas = _context.Tareas;
 
+            switch (filtroFecha)
+            {
+                case "MasAntiguo":
+                    tareas = tareas.OrderBy(t => t.FechaVencimiento);
+                    break;
+                case "MasReciente":
+                    tareas = tareas.OrderByDescending(t => t.FechaVencimiento);
+                    break;
+            }
 
-            return View(await _context.Tareas.ToListAsync());
+            switch (filtroPrioridad)
+            {
+                case "Alta":
+                    tareas = tareas.Where(t => t.Prioridad == Prioridad.Alta);
+                    break;
+                case "Media":
+                    tareas = tareas.Where(t => t.Prioridad == Prioridad.Media);
+                    break;
+                case "Baja":
+                    tareas = tareas.Where(t => t.Prioridad == Prioridad.Baja);
+                    break;
+            }
+
+            return View(await tareas.ToListAsync());
         }
 
         // GET: Tareas/Details/5

@@ -8,15 +8,29 @@
 
 <html lang="es">
 <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+    <script src="https://kit.fontawesome.com/a3d8f557aa.js" crossorigin="anonymous"></script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Index</title>
     <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/fonts/fontawesome-webfont.ttf" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-
+    <link href="~/css/site.css" rel="stylesheet" />/>
     <style>
+        html {
+            background: linear-gradient(45deg, #FFE3C3, #FFE2C1);
+            font-size: 16px;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-font-smoothing: antialiased;
+            min-width: 300px;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            text-rendering: optimizeLegibility;
+            -webkit-text-size-adjust: 100%;
+            -moz-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
         .container {
             font-family: 'Montserrat Thin', sans-serif;
         }
@@ -27,6 +41,7 @@
         }
 
         .table {
+            background: linear-gradient(45deg, #FFE3C3, #FFE2C1);
             width: 100%;
             border-collapse:initial;
             margin: 2rem auto;
@@ -36,7 +51,7 @@
         th, td {
             text-align: left;
             padding: 1rem 1.5rem;
-            border: 1px solid black;
+            border: 1px solid black;         
             vertical-align: top; /* Alinea el contenido de la celda en la parte superior */
         }
 
@@ -51,17 +66,14 @@
             display: inline-block; /* Para ajustar la altura del ícono según el texto */
         }
 
-        .columna-prioridad {
-            width: 10%; /* Ajusta este valor según sea necesario */
-        }
 
-        .btn-primary-ghost {
+        .btn-primary-ghost, .button {
             background-color: transparent;
             border: 2px solid #030331;
             color: #030331;
         }
 
-        .btn-primary-ghost:hover {
+        .btn-primary-ghost:hover, .button:hover {
             background-color: #030331;
             color: #FFE3C3;
             transform: scale(1.1);
@@ -78,12 +90,17 @@
                 margin-right: 10px;
                 padding: 3% 16px;
             }
-        .description-cell {
+
+        .description-cell, .prioridad-cell {
             max-width: 200px; /* Ancho máximo de la celda de descripción */
             white-space: nowrap; /* Evita el desbordamiento de texto a la siguiente línea */
             overflow: hidden; /* Oculta el texto que excede el ancho máximo */
             text-overflow: ellipsis; /* Muestra puntos suspensivos (...) cuando el texto se corta */
         }
+
+
+
+
     </style>
 </head>
 <body>
@@ -92,7 +109,42 @@
             <h1>Aquí está la lista de todas las tareas creadas</h1>
             <p>¡Con el siguiente botón crearás nuevas tareas con las características que elijas!</p>
             <a asp-action="Create" class="btn btn-primary-ghost">Nueva Tarea</a>
+ 
+
+
+
+        <div class="dropdown is-hoverable">
+            <div class="dropdown-trigger">
+                <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                    <span >Filtros</span>
+                    <span class="icon is-small">
+                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                </button>
+            </div>
+            <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                <div class="dropdown-content">
+                    <div class="dropdown-item">
+                        <p>Por Fecha</p>
+                        <hr class="dropdown-divider">
+                        <a href="?filtroFecha=MasAntiguo" class="dropdown-item">Más antiguo</a>
+                        <a href="?filtroFecha=MasReciente" class="dropdown-item">Más reciente</a>
+                    </div>
+                    <hr class="dropdown-divider">
+                    <div class="dropdown-item">
+                        <p>Por Prioridad</p>
+                        <hr class="dropdown-divider">
+                        <a href="?filtroPrioridad=Alta" class="dropdown-item">Alta</a>
+                        <a href="?filtroPrioridad=Media" class="dropdown-item">Media</a>
+                        <a href="?filtroPrioridad=Baja" class="dropdown-item">Baja</a>
+                    </div>
+                </div>
+            </div>
+        </div>
         </p>
+
+
+ 
 
         <table class="table w-100">
             <thead>
@@ -100,7 +152,7 @@
                     <th>Título</th>
                     <th>Descripción</th>
                     <th>Fecha de vencimiento</th>
-                    <th class="columna-prioridad">Prioridad</th>
+                    <th>Prioridad</th>
                     <th>Completada</th>
                     <th>Opciones</th>
                 </tr>
@@ -129,10 +181,9 @@
                                     break;
                             }
                         }
-                        <td>
+                        <td class="prioridad-cell">
                             <i class="@iconClass">@GetMaterialIcon(prioridad)</i> @prioridad.ToString()
                         </td>
-                        @* <td class="text-center">@Html.DisplayFor(modelItem => item.Completada)</td> *@
                         <td class="text-center">
                             @if (item.Completada)
                             {
@@ -155,6 +206,25 @@
     </div>
 </body>
 </html>
+
+
+<script>
+    $('.dropdown-menu a.dropdown-toggle').on('click', function (e) {
+        if (!$(this).next().hasClass('show')) {
+            $(this).parents('.dropdown-menu').first().find('.show').removeClass('show');
+        }
+        var $subMenu = $(this).next('.dropdown-menu');
+        $subMenu.toggleClass('show');
+
+        $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function (e) {
+            $('.dropdown-submenu .show').removeClass('show');
+        });
+
+        return false;
+    });
+
+</script>
+
 
 
 @functions {
